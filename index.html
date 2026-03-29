@@ -24,7 +24,7 @@
             -webkit-user-select: none;
         }
 
-        /* Фон */
+        /* Анимированный фон */
         .bg-container {
             position: fixed;
             top: 0; left: 0;
@@ -59,7 +59,7 @@
             to { transform: translateY(110vh) rotate(360deg); }
         }
 
-        /* Эффект сердечек */
+        /* Взрыв сердечек */
         .burst-heart {
             position: fixed;
             pointer-events: none;
@@ -209,10 +209,6 @@
         </div>
     </div>
 
-    <audio id="music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
         const wishes = [
             "Жаным❤️...",
@@ -225,6 +221,7 @@
         const photos = ["your_photo2.jpg", "your_photo3.jpg", "your_photo4.jpg"];
         let step = 0;
 
+        // Взрыв сердечек при клике
         function createHeartBurst(e) {
             const x = e.clientX;
             const y = e.clientY;
@@ -245,6 +242,7 @@
             }
         }
 
+        // Падающие фоновые частицы
         function createParticles() {
             const container = document.getElementById('particles');
             const items = ['🌸', '❤️', '💖', '✨'];
@@ -261,6 +259,7 @@
         }
         createParticles();
 
+        // Эффект печатающегося текста
         function type(txt, i = 0) {
             const box = document.getElementById('text-box');
             const btn = document.getElementById('btn');
@@ -273,11 +272,9 @@
             }
         }
 
+        // Логика открытия конверта
         function openMe() {
             document.getElementById('env').classList.add('open');
-            const music = document.getElementById('music');
-            music.play();
-            music.volume = 0.2;
             setTimeout(() => {
                 document.getElementById('envelope-screen').style.opacity = '0';
                 setTimeout(() => {
@@ -326,6 +323,7 @@
                     </button>
                 `;
                 box.style.opacity = '1';
+                document.querySelector('.glass-card').scrollTop = 0;
             }, 500);
         }
 
