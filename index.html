@@ -6,7 +6,6 @@
     <title>Для моей любимой</title>
     <style>
         :root {
-            /* Те самые нежные оттенки из приглашения */
             --color1: #ffafbd;
             --color2: #ffc3a0;
             --color3: #ee9ca7;
@@ -21,15 +20,15 @@
             height: 100%;
             overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        /* --- ТОТ САМЫЙ ФОН --- */
+        /* Фон */
         .bg-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1;
             background: linear-gradient(-45deg, var(--color1), var(--color2), var(--color3), var(--color4));
             background-size: 400% 400%;
@@ -42,16 +41,13 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Эффект мягкого свечения */
         .glow {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             background: radial-gradient(circle, transparent 20%, rgba(255,255,255,0.2) 80%);
             pointer-events: none;
         }
 
-        /* Падающие частицы */
         .particle {
             position: absolute;
             top: -50px;
@@ -62,7 +58,8 @@
         @keyframes fall {
             to { transform: translateY(110vh) rotate(360deg); }
         }
-        /* --- НОВЫЙ ЭФФЕКТ: ВЗРЫВ СЕРДЕЧЕК ПРИ КЛИКЕ --- */
+
+        /* Эффект сердечек */
         .burst-heart {
             position: fixed;
             pointer-events: none;
@@ -74,13 +71,12 @@
         @keyframes heartBurst {
             0% { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
             100% { 
-                /* Сердечки разлетаются в стороны на случайное расстояние (задается через JS) */
                 transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.5); 
                 opacity: 0; 
             }
         }
 
-        /* --- КОНВЕРТ --- */
+        /* Экраны */
         .screen {
             display: flex;
             justify-content: center;
@@ -94,8 +90,7 @@
         #envelope-screen { cursor: pointer; z-index: 10; }
 
         .envelope {
-            width: 260px;
-            height: 160px;
+            width: 260px; height: 160px;
             background: #ff7675;
             position: relative;
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
@@ -105,8 +100,7 @@
         .envelope::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             border-left: 130px solid transparent;
             border-right: 130px solid transparent;
             border-top: 90px solid #ff5252;
@@ -117,7 +111,6 @@
 
         .envelope.open::after { transform: rotateX(180deg); }
 
-        /* --- ГЛАВНЫЙ КОНТЕНТ --- */
         #main-screen {
             opacity: 0;
             visibility: hidden;
@@ -125,29 +118,25 @@
             text-align: center;
         }
 
-        /* Обновленная карточка: добавили макс. высоту и прокрутку */
         .glass-card {
             background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 20px;
-            padding: 20px; /* Немного уменьшили отступы */
+            padding: 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             max-width: 90%;
             width: 400px;
-            max-height: 85vh; /* Чтобы не уходило за край экрана */
-            overflow-y: auto; /* Включает прокрутку, если фото много */
-            scrollbar-width: none; /* Скрывает полосу прокрутки в Firefox */
+            max-height: 85vh;
+            overflow-y: auto;
+            scrollbar-width: none;
         }
         
-        .glass-card::-webkit-scrollbar {
-            display: none; /* Скрывает полосу прокрутки в Chrome/Safari */
-        }
+        .glass-card::-webkit-scrollbar { display: none; }
 
         .photo-frame {
-            width: 220px;
-            height: 280px;
+            width: 220px; height: 280px;
             object-fit: cover;
             border: 6px solid white;
             border-bottom: 40px solid white;
@@ -155,16 +144,12 @@
             margin-bottom: 20px;
             opacity: 0;
             transform: scale(0.8) rotate(-5deg);
-            cursor: pointer; /* Показываем, что на фото можно кликнуть */
+            cursor: pointer;
         }
 
-        .photo-active {
-            animation: photoIn 0.8s forwards ease-out;
-        }
+        .photo-active { animation: photoIn 0.8s forwards ease-out; }
 
-        @keyframes photoIn {
-            to { opacity: 1; transform: scale(1) rotate(-2deg); }
-        }
+        @keyframes photoIn { to { opacity: 1; transform: scale(1) rotate(-2deg); } }
 
         .wish-text {
             font-size: 1.2rem;
@@ -186,17 +171,15 @@
             box-shadow: 0 4px 15px rgba(214, 48, 49, 0.3);
         }
 
-        /* Коллаж: теперь 3 колонки, чтобы 6 фото влезли компактно */
         .collage {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); 
+            grid-template-columns: repeat(3, 1fr);
             gap: 8px;
             margin-top: 15px;
         }
 
         .collage img {
-            width: 100%;
-            height: 100px; /* Фиксированная высота для ровности */
+            width: 100%; height: 100px;
             object-fit: cover;
             border-radius: 5px;
             border: 2px solid white;
@@ -208,7 +191,7 @@
     <div class="bg-container"></div>
     <div class="glow"></div>
     <div id="particles"></div>
-  </div>
+
     <div id="envelope-screen" class="screen" onclick="openMe()">
         <div class="envelope" id="env">
             <div style="position:absolute; bottom:20px; width:100%; text-align:center; color:white; font-size:12px;">Тебе письмо ❤️</div>
@@ -218,16 +201,19 @@
     <div id="main-screen" class="screen">
         <div class="glass-card">
             <h2 style="color:var(--accent); margin-top:0;">Добрый вечер, любимая</h2>
-            
             <div id="content-box">
-                <img src="your_photo1.jpg" id="main-photo" class="photo-frame">
+                <img src="your_photo1.jpg" id="main-photo" class="photo-frame" onclick="createHeartBurst(event)">
                 <div id="text-box" class="wish-text"></div>
                 <button class="btn" id="btn" onclick="nextSlide()" style="display:none;">Нажми дальше ✨</button>
             </div>
         </div>
+    </div>
+
+    <audio id="music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        // Конфигурация
         const wishes = [
             "Жаным❤️...",
             "Ты сияешь ярче любых звезд.",
@@ -238,46 +224,27 @@
 
         const photos = ["your_photo2.jpg", "your_photo3.jpg", "your_photo4.jpg"];
         let step = 0;
-        let isTyping = false; // Блокировка клика во время печати текста
 
-        // --- НОВАЯ ФУНКЦИЯ: СОЗДАНИЕ ВЗРЫВА СЕРДЕЧЕК ---
         function createHeartBurst(e) {
-            // Координаты клика
             const x = e.clientX;
             const y = e.clientY;
-            const numberOfHearts = 20; // Сколько сердечек вылетает
-
             const symbols = ['❤️', '💖', '🤍'];
-
-            for (let i = 0; i < numberOfHearts; i++) {
+            for (let i = 0; i < 15; i++) {
                 const heart = document.createElement('span');
                 heart.innerText = symbols[Math.floor(Math.random() * symbols.length)];
                 heart.className = 'burst-heart';
-
-                // Задаем случайное направление полета (dx, dy)
                 const dx = (Math.random() - 0.5) * 200 + 'px';
                 const dy = (Math.random() - 0.5) * 200 + 'px';
                 heart.style.setProperty('--dx', dx);
                 heart.style.setProperty('--dy', dy);
-
-                // Случайный размер и задержка анимации
-                heart.style.fontSize = Math.random() * 10 + 10 + 'px';
-                heart.style.animationDelay = Math.random() * 0.2 + 's';
-
-                // Позиционируем в месте клика
                 heart.style.left = x + 'px';
                 heart.style.top = y + 'px';
-
+                heart.style.fontSize = Math.random() * 10 + 15 + 'px';
                 document.body.appendChild(heart);
-
-                // Удаляем элемент после завершения анимации
-                setTimeout(() => {
-                    heart.remove();
-                }, 1200);
+                setTimeout(() => heart.remove(), 1200);
             }
         }
 
-        // Падающие штучки (сердечки и лепестки)
         function createParticles() {
             const container = document.getElementById('particles');
             const items = ['🌸', '❤️', '💖', '✨'];
@@ -286,42 +253,38 @@
                 p.className = 'particle';
                 p.innerHTML = items[Math.floor(Math.random()*items.length)];
                 p.style.left = Math.random() * 100 + 'vw';
-                p.style.fontSize = (Math.random() * 20 + 10) + 'px';
                 p.style.animationDuration = (Math.random() * 3 + 4) + 's';
                 p.style.opacity = Math.random();
                 container.appendChild(p);
                 setTimeout(() => p.remove(), 7000);
-            }, 300);
+            }, 400);
         }
         createParticles();
 
-        // Печатный текст
         function type(txt, i = 0) {
             const box = document.getElementById('text-box');
             const btn = document.getElementById('btn');
-            btn.style.display = 'none';
-            if (i === 0) box.innerHTML = '';
-            
+            if (i === 0) { box.innerHTML = ''; btn.style.display = 'none'; }
             if (i < txt.length) {
                 box.innerHTML += txt.charAt(i);
-                setTimeout(() => type(txt, i + 1), 6000/100); // Скорость печати
+                setTimeout(() => type(txt, i + 1), 60);
             } else {
                 btn.style.display = 'inline-block';
             }
         }
 
-        // Открытие конверта
         function openMe() {
             document.getElementById('env').classList.add('open');
-            document.getElementById('music').play();
-            document.getElementById('music').volume = 0.2;
-
+            const music = document.getElementById('music');
+            music.play();
+            music.volume = 0.2;
             setTimeout(() => {
                 document.getElementById('envelope-screen').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('envelope-screen').style.display = 'none';
-                    document.getElementById('main-screen').style.visibility = 'visible';
-                    document.getElementById('main-screen').style.opacity = '1';
+                    const main = document.getElementById('main-screen');
+                    main.style.visibility = 'visible';
+                    main.style.opacity = '1';
                     showStep(0);
                 }, 800);
             }, 600);
@@ -330,11 +293,7 @@
         function showStep(n) {
             const img = document.getElementById('main-photo');
             img.classList.remove('photo-active');
-            
-            if (n > 0 && n <= photos.length) {
-                img.src = photos[n-1];
-            }
-
+            if (n > 0 && n <= photos.length) img.src = photos[n-1];
             setTimeout(() => {
                 img.classList.add('photo-active');
                 type(wishes[n] || "Люблю тебя!");
@@ -343,27 +302,20 @@
 
         function nextSlide() {
             step++;
-            if (step <= photos.length) {
-                showStep(step);
-            } else {
-                showCollage();
-            }
+            if (step <= photos.length) showStep(step);
+            else showCollage();
         }
 
-       function showCollage() {
+        function showCollage() {
             const box = document.getElementById('content-box');
             box.style.opacity = '0';
             setTimeout(() => {
                 box.innerHTML = `
                     <div class="collage">
-                        <img src="collage1.jpg">
-                        <img src="collage2.jpg">
-                        <img src="collage3.jpg">
-                        <img src="collage4.jpg">
-                        <img src="collage5.jpg">
-                        <img src="collage6.jpg">
+                        <img src="collage1.jpg"> <img src="collage2.jpg"> <img src="collage3.jpg">
+                        <img src="collage4.jpg"> <img src="collage5.jpg"> <img src="collage6.jpg">
                     </div>
-                    <p style="color:var(--accent); font-weight:bold; margin-top:15px; font-size: 1rem;">
+                    <p style="color:var(--accent); font-weight:bold; margin-top:15px; font-size: 1.1rem;">
                         Дальше — больше. Только вдвоём. ❤️
                     </p>
                     <p style="color: #666; font-size: 0.9rem; font-style: italic; margin-top: 0;">
@@ -374,34 +326,26 @@
                     </button>
                 `;
                 box.style.opacity = '1';
-                
-                // Автоматическая прокрутка вверх, если карточка была прокручена
-                document.querySelector('.glass-card').scrollTop = 0;
             }, 500);
         }
-      function restart() {
-           // 1. Сбрасываем шаг на начало
-           step = 0;
-    
-           // 2. Скрываем главный экран и показываем конверт
-    	 document.getElementById('main-screen').style.opacity = '0';
-   	 document.getElementById('main-screen').style.visibility = 'hidden';
-    
-   	 const envScreen = document.getElementById('envelope-screen');
-         envScreen.style.display = 'flex';
-        setTimeout(() => {
-         envScreen.style.opacity = '1';
-         document.getElementById('env').classList.remove('open');
-       }, 50);
 
-      // 3. Возвращаем исходную структуру в content-box (фото + текст)
-       const box = document.getElementById('content-box');
-      box.innerHTML = `
-        <img src="your_photo1.jpg" id="main-photo" class="photo-frame">
-        <div id="text-box" class="wish-text"></div>
-        <button class="btn" id="btn" onclick="nextSlide()" style="display:none;">Нажми дальше ✨</button>
-    `;
-}
+        function restart() {
+            step = 0;
+            document.getElementById('main-screen').style.opacity = '0';
+            document.getElementById('main-screen').style.visibility = 'hidden';
+            const envScreen = document.getElementById('envelope-screen');
+            envScreen.style.display = 'flex';
+            setTimeout(() => {
+                envScreen.style.opacity = '1';
+                document.getElementById('env').classList.remove('open');
+            }, 50);
+
+            document.getElementById('content-box').innerHTML = `
+                <img src="your_photo1.jpg" id="main-photo" class="photo-frame" onclick="createHeartBurst(event)">
+                <div id="text-box" class="wish-text"></div>
+                <button class="btn" id="btn" onclick="nextSlide()" style="display:none;">Нажми дальше ✨</button>
+            `;
+        }
     </script>
 </body>
 </html>
